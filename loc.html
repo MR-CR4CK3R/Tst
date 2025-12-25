@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Live Location 💚</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: radial-gradient(circle at top, #0f2027, #000);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #00ff9c;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    .card {
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid #00ff9c;
+      border-radius: 20px;
+      padding: 30px;
+      width: 90%;
+      max-width: 420px;
+      text-align: center;
+      box-shadow: 0 0 25px #00ff9c55;
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      from { box-shadow: 0 0 15px #00ff9c55; }
+      to   { box-shadow: 0 0 30px #ff69b455; }
+    }
+
+    h2 {
+      font-family: 'Orbitron', monospace;
+      margin-bottom: 10px;
+      color: #00ff9c;
+    }
+
+    h2 span {
+      color: #ff69b4;
+    }
+
+    #status {
+      font-size: 0.95rem;
+      opacity: 0.85;
+      margin-bottom: 10px;
+    }
+
+    #coords {
+      font-size: 0.95rem;
+      margin: 10px 0 20px;
+      color: #caffea;
+    }
+
+    a {
+      display: inline-block;
+      padding: 12px 22px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 600;
+      background: linear-gradient(135deg, #00ff9c, #ff69b4);
+      color: #000;
+      box-shadow: 0 0 15px #ff69b488;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    a:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 0 25px #00ff9caa;
+    }
+
+    .heart {
+      margin-top: 15px;
+      font-size: 0.85rem;
+      color: #ff9acb;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+    <h2>👨‍💻 Live <span>Location</span> 💖</h2>
+    <p id="status">Initializing secure GPS…</p>
+    <p id="coords"></p>
+    <a id="mapLink" target="_blank"></a>
+    <div class="heart">encrypted with care 💘</div>
+  </div>
+
+  <script>
+    if ("geolocation" in navigator) {
+      navigator.geolocation.watchPosition(
+        (pos) => {
+          const lat = pos.coords.latitude.toFixed(6);
+          const lon = pos.coords.longitude.toFixed(6);
+
+          document.getElementById("status").innerText =
+            "📡 tracking in real‑time…";
+
+          document.getElementById("coords").innerText =
+            `lat: ${lat} | lon: ${lon}`;
+
+          const link = `https://www.google.com/maps?q=${lat},${lon}`;
+          const a = document.getElementById("mapLink");
+          a.href = link;
+          a.innerText = "🗺️ Open in Google Maps";
+        },
+        () => {
+          document.getElementById("status").innerText =
+            "❌ location permission denied";
+        },
+        { enableHighAccuracy: true }
+      );
+    } else {
+      document.getElementById("status").innerText =
+        "⚠️ geolocation not supported";
+    }
+  </script>
+
+</body>
+</html>
